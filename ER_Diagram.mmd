@@ -1,0 +1,45 @@
+flowchart TD
+    Start([Start]) --> Login{Login Required}
+    
+    Login -->|No Account| Register[Register Free Account]
+    Register --> LoginSuccess[Login Success]
+    
+    Login -->|Has Account| LoginForm[Enter Credentials]
+    LoginForm --> LoginSuccess
+    
+    LoginSuccess --> MyRooms[My Rooms Dashboard]
+    
+    MyRooms --> CreateRoom{Create Room?}
+    CreateRoom -->|Yes| RoomForm[Enter Title + YouTube URL]
+    CreateRoom -->|No| RoomList[Browse My Rooms]
+    
+    RoomForm --> GenerateCode[Generate Invite Code]
+    GenerateCode --> ShareLink[Copy /rooms/abc123 Link]
+    ShareLink --> SendWhatsApp[Share via WhatsApp]
+    
+    RoomList --> SelectRoom[Click My Room]
+    SelectRoom --> RoomDetail[Room Detail Page]
+    
+    SendWhatsApp --> FriendClick[Friend Clicks Link]
+    FriendClick --> FriendLogin{Logged In?}
+    
+    FriendLogin -->|No| FriendRegister[Friend Registers + Login]
+    FriendRegister --> RoomDetail
+    FriendLogin -->|Yes| RoomDetail
+    
+    RoomDetail --> YouTubeEmbed[Embedded YouTube Player]
+    YouTubeEmbed --> SyncState[Sync Playback State]
+    SyncState --> ChatBox[Real-time Chat]
+    
+    ChatBox --> OwnerControls{Owner?}
+    OwnerControls -->|Yes| MasterSync[Play/Pause/Seek All]
+    OwnerControls -->|No| FollowSync[Follow Owner Sync]
+    
+    MasterSync --> ChatBox
+    FollowSync --> ChatBox
+    
+    ChatBox --> EndRoom{Leave Room?}
+    EndRoom -->|Yes| Logout[Logout / Delete Room Owner Only]
+    EndRoom -->|No| ChatBox
+    
+    Logout --> Start
